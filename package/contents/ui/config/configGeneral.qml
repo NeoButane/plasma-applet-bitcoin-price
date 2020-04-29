@@ -9,7 +9,6 @@ Item {
 	id: configGeneral
 	Layout.fillWidth: true
 	property string cfg_source: plasmoid.configuration.source
-	property string cfg_currency: plasmoid.configuration.currency
 	property string cfg_onClickAction: plasmoid.configuration.onClickAction
 	property alias cfg_refreshRate: refreshRate.value
 	property alias cfg_showIcon: showIcon.checked
@@ -17,7 +16,6 @@ Item {
 	property alias cfg_showDecimals: showDecimals.checked
 	property alias cfg_showBackground: showBackground.checked
 	property variant sourceList: { Bitcoin.getAllSources() }
-	property variant currencyList: { Bitcoin.getAllCurrencies() }
 
 	GridLayout {
 		columns: 2
@@ -43,32 +41,12 @@ Item {
 		}
 		
 		Label {
-			text: i18n("Currency:")
-		}
-		
-		ComboBox {
-			id: currency
-			model: currencyList
-			Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 15
-			onActivated: {
-				cfg_currency = currency.textAt(index)
-			}
-			Component.onCompleted: {
-				var currencyIndex = currency.find(plasmoid.configuration.currency)
-				
-				if(currencyIndex != -1) {
-					currency.currentIndex = currencyIndex
-				}
-			}
-		}
-		
-		Label {
 			text: i18n("Refresh rate:")
 		}
 		
 		SpinBox {
 			id: refreshRate
-			suffix: i18n(" minutes")
+			suffix: i18n(" seconds")
 			minimumValue: 1
 		}
 		

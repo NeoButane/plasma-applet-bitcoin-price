@@ -1,45 +1,56 @@
 var sources = [
-	{
-		name: 'CoinMarketCap',
-		url: 'https://api.coinmarketcap.com/v1/ticker/bitcoin/',
-		homepage: 'https://coinmarketcap.com/currencies/bitcoin/',
-		currency: 'USD',
-		getRate: function(data) {
-			return data[0].price_usd;
-		}
-	},
-	{
-		name: 'Bitmarket.pl',
-		url: 'https://www.bitmarket.pl/json/BTCPLN/ticker.json',
-		homepage: 'https://www.bitmarket.pl/market.php?market=BTCPLN',
-		currency: 'PLN',
-		getRate: function(data) {
-			return data.ask;
-		}
-	},
-	{
-		name: 'Bitmaszyna.pl',
-		url: 'https://bitmaszyna.pl/api/BTCPLN/ticker.json',
-		homepage: 'https://bitmaszyna.pl/',
-		currency: 'PLN',
-		getRate: function(data) {
-			return data.ask;
-		}
-	},
-	{
-		name: 'BitBay',
-		url: 'https://bitbay.net/API/Public/BTCPLN/ticker.json',
-		homepage: 'https://bitbay.net',
-		currency: 'PLN',
-		getRate: function(data) {
-			return data.ask;
-		}
-	},
+        {
+                name: 'None',
+                url: './none',
+                homepage: '0.0.0.0',
+                getRate: function(data) {
+                        return data.result.last_price;
+                }
+        },
+        {
+                name: 'Bybit',
+                url: 'https://api.bybit.com/v2/public/tickers?symbol=BTCUSD',
+                homepage: 'https://www.bybit.com/',
+                getRate: function(data) {
+                        return data.result[0].last_price;
+                }
+        },
+        {
+                name: 'Deribit',
+                url: 'https://www.deribit.com/api/v2/public/ticker?instrument_name=BTC-PERPETUAL',
+                homepage: 'https://www.deribit.com/',
+                getRate: function(data) {
+                        return data.result.last_price;
+                }
+        },
+        {
+                name: 'BitMEX',
+                url: 'https://www.bitmex.com/api/v1/instrument?symbol=XBT',
+                homepage: 'https://www.bitmex.com/',
+                getRate: function(data) {
+                        return data[0].lastPrice;
+                }
+        },
+        {
+                name: 'Bitmaszyna.pl (BTC/PLN)',
+                url: 'https://bitmaszyna.pl/api/BTCPLN/ticker.json',
+                homepage: 'https://bitmaszyna.pl/',
+                getRate: function(data) {
+                        return data.ask;
+                }
+        },
+        {
+                name: 'BitBay (BTC/PLN)',
+                url: 'https://bitbay.net/API/Public/BTCPLN/ticker.json',
+                homepage: 'https://bitbay.net',
+                getRate: function(data) {
+                        return data.ask;
+                }
+        },
 	{
 		name: 'Blockchain.info',
 		url: 'https://blockchain.info/ticker',
 		homepage: 'https://blockchain.info/',
-		currency: 'USD',
 		getRate: function(data) {
 			return data.USD.last;
 		}
@@ -48,16 +59,14 @@ var sources = [
 		name: 'Bitfinex',
 		url: 'https://api.bitfinex.com/v1/pubticker/btcusd',
 		homepage: 'https://www.bitfinex.com/',
-		currency: 'USD',
 		getRate: function(data) {
-			return data.ask;
+			return data.mid;
 		}
 	},
 	{
 		name: 'Bitstamp',
 		url: 'https://www.bitstamp.net/api/ticker',
 		homepage: 'https://www.bitstamp.net/',
-		currency: 'USD',
 		getRate: function(data) {
 			return data.ask;
 		}
@@ -66,16 +75,14 @@ var sources = [
 		name: 'Kraken',
 		url: 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD',
 		homepage: 'https://www.kraken.com',
-		currency: 'USD',
 		getRate: function(data) {
 			return data.result.XXBTZUSD.a[0];
 		}
 	},
 	{
-		name: 'GDAX',
-		url: 'https://api-public.sandbox.gdax.com/products/BTC-USD/ticker',
-		homepage: 'https://www.gdax.com/',
-		currency: 'USD',
+		name: 'Coinbase Pro',
+		url: 'https://api-public.sandbox.pro.coinbase.com/products/BTC-USD/ticker',
+		homepage: 'https://pro.coinbase.com/',
 		getRate: function(data) {
 			return data.ask;
 		}
@@ -84,31 +91,14 @@ var sources = [
 		name: 'CEX.IO',
 		url: 'https://cex.io/api/last_price/BTC/USD',
 		homepage: 'https://cex.io',
-		currency: 'USD',
 		getRate: function(data) {
 			return data.lprice;
 		}
 	},
 ];
 
-var currencyApiUrl = 'http://free.currencyconverterapi.com';
-
-var currencySymbols = {
-	'USD': '$',  // US Dollar
-	'EUR': '€',  // Euro
-	'CZK': 'Kč', // Czech Coruna
-	'GBP': '£',  // British Pound Sterling
-	'ILS': '₪',  // Israeli New Sheqel
-	'INR': '₹',  // Indian Rupee
-	'JPY': '¥',  // Japanese Yen
-	'KRW': '₩',  // South Korean Won
-	'PHP': '₱',  // Philippine Peso
-	'PLN': 'zł', // Polish Zloty
-	'THB': '฿',  // Thai Baht
-};
-
-function getRate(source, currency, callback) {
-	source = typeof source === 'undefined' ? getSourceByName('Bitmarket.pl') : getSourceByName(source);
+function getRate(source, callback) {
+	source = typeof source === 'undefined' ? getSourceByName('BitMEX') : getSourceByName(source);
 	
 	if(source === null) return false;
 	
@@ -117,12 +107,6 @@ function getRate(source, currency, callback) {
 
 		data = JSON.parse(data);
 		var rate = source.getRate(data);
-		
-		if(source.currency != currency) {
-			convert(rate, source.currency, currency, callback);
-			return;
-		}
-		
 		callback(rate);
 	});
 	
@@ -147,26 +131,6 @@ function getAllSources() {
 	}
 	
 	return sourceNames;
-}
-
-function getAllCurrencies() {
-	var currencies = [];
-	
-	Object.keys(currencySymbols).forEach(function eachKey(key) {
-		currencies.push(key);
-	});
-	
-	return currencies;
-}
-
-function convert(value, from, to, callback) {
-	var currencyPair = from + '_' + to;
-	request(currencyApiUrl + '/api/v3/convert?q=' + currencyPair + '&compact=ultra', function(data) {
-		data = JSON.parse(data);
-		var rate = data[currencyPair];
-		
-		callback(value * rate);
-	});
 }
 
 function request(url, callback) {

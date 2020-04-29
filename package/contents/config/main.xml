@@ -7,11 +7,7 @@
   <group name="General">
     <entry name="source" type="String">
       <label>Source</label>
-      <default>CoinMarketCap</default>
-    </entry>
-	<entry name="currency" type="String">
-      <label>Currency</label>
-      <default>USD</default>
+      <default>Deribit</default>
     </entry>
     <entry name="refreshRate" type="Int">
       <label>Refresh rate</label>

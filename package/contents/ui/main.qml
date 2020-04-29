@@ -108,9 +108,6 @@ Item {
 	Connections {
 		target: plasmoid.configuration
 		
-		onCurrencyChanged: {
-			bitcoinTimer.restart();
-		}
 		onSourceChanged: {
 			bitcoinTimer.restart();
 		}
@@ -124,17 +121,17 @@ Item {
 	
 	Timer {
 		id: bitcoinTimer
-		interval: plasmoid.configuration.refreshRate * 60 * 1000
+		interval: plasmoid.configuration.refreshRate * 1000
 		running: true
 		repeat: true
 		triggeredOnStart: true
 		onTriggered: {
 			root.updatingRate = true;
 			
-			var result = Bitcoin.getRate(plasmoid.configuration.source, plasmoid.configuration.currency, function(rate) {
+			var result = Bitcoin.getRate(plasmoid.configuration.source, function(rate) {
 				if(!plasmoid.configuration.showDecimals) rate = Math.floor(rate);
 				
-				var rateText = Number(rate).toLocaleCurrencyString(Qt.locale(), Bitcoin.currencySymbols[plasmoid.configuration.currency]);
+				var rateText = Number(rate);
 				
 				if(!plasmoid.configuration.showDecimals) rateText = rateText.replace(Qt.locale().decimalPoint + '00', '');
 				

@@ -13,36 +13,24 @@ plasmapkg2 -i package
 Use additional `-g` flag to install plasmoid globally, for all users.
 
 ## Supported sources
-- CoinMarketCap
-- Bitmarket.pl
-- Bitmaszyna.pl
 - BitBay
-- Blockchain.info
 - Bitfinex
+- Bitmaszyna.pl
+- BitMEX
 - Bitstamp
+- Blockchain.info
+- Bybit
+- Deribit
 - Kraken
-- GDAX
 - Cex.io
-
-## Supported currencies
-- USD ($) - US Dollar
-- EUR (€) - Euro
-- CZK (Kč) - Czech Coruna
-- GBP (£) - British Pound Sterling
-- ILS (₪) - Israeli New Sheqel
-- INR (₹) - Indian Rupee
-- JPY (¥) - Japanese Yen
-- KRW (₩) - South Korean Won
-- PHP (₱) - Philippine Peso
-- PLN (zł) - Polish Zloty
-- THB (฿) - Thai Baht
+- Coinbase Pro
 
 ## Screenshots
-![Bitcoin Price Plasmoid](https://raw.githubusercontent.com/MakG10/plasma-applet-bitcoin-price/master/bitcoin-price-plasmoid.png)
+![Bitcoin Price Plasmoid](https://raw.githubusercontent.com/NeoButane/plasma-applet-bitcoin-price/master/bitcoin-price-plasmoid.png)
 
-![Bitcoin Price Plasmoid (Panel)](https://raw.githubusercontent.com/MakG10/plasma-applet-bitcoin-price/master/bitcoin-price-panel.png)
+![Bitcoin Price Plasmoid (Panel)](https://raw.githubusercontent.com/NeoButane/plasma-applet-bitcoin-price/master/bitcoin-price-panel.png)
 
-![Bitcoin Price Plasmoid (Configuration)](https://raw.githubusercontent.com/MakG10/plasma-applet-bitcoin-price/master/bitcoin-price-config.png)
+![Bitcoin Price Plasmoid (Configuration)](https://raw.githubusercontent.com/NeoButane/plasma-applet-bitcoin-price/master/bitcoin-price-config.png)
 
 ## Contributors
 - Maciej Gierej
@@ -50,18 +38,8 @@ Use additional `-g` flag to install plasmoid globally, for all users.
 
 ## Changelog
 
-### 1.2.1
-- Changed currency converter API from fixer.io to currencyconverterapi.com
-- Fixed XHR request and callback (could cause unnecessary multiple API calls)
-
-### 1.2
-- Added new exchange sources: Bitfinex, Bitstamp, Kraken, GDAX
-- Added "Show decimals" option to show/hide decimals in the price
-- Added "Show background" option to show/hide plasmoid background on the desktop
-
-### 1.1
-- Fixed displaying on panels (issue #1)
-- Added "Show text" option
-
-### 1.0
-Initial release
+### 1.2.1a
+- Forked to add BitMEX, Bybit, Deribit
+- Changed refresh rate from minutes to seconds
+- Changed GDAX to Coinbase Pro
+- Removed CoinMarketCap (requires subscription), Bitmarket.pl (dead), currency converter (requires invidiual API key)
