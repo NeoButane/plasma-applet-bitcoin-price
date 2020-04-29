@@ -1,7 +1,7 @@
 # Bitcoin Price Plasmoid
 
 ## About
-Plasma applet showing the current price of Bitcoin from various markets to choose from. The plasmoid can also convert the price to a desired currency.
+Plasma applet showing the current price of Bitcoin from various markets to choose from.
 
 Written by Maciej Gierej - http://makg.eu
 
